@@ -145,8 +145,15 @@ function convertNumberToString(/* numberStr */) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  const len = str.length;
+
+  for (let i = 0; i <= str.length / 2; i += 1) {
+    if (str[i] !== str[len - 1 - i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
@@ -239,8 +246,47 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const n = size * size;
+  const matrix = [];
+
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+  }
+
+  let top = 0;
+  let bottom = size - 1;
+  let left = 0;
+  let right = size - 1;
+  let num = 1;
+
+  while (num <= n) {
+    for (let i = left; i <= right; i += 1) {
+      matrix[top][i] = num;
+      num += 1;
+    }
+    top += 1;
+
+    for (let i = top; i <= bottom; i += 1) {
+      matrix[i][right] = num;
+      num += 1;
+    }
+    right -= 1;
+
+    for (let i = left; i <= right; i += 1) {
+      matrix[bottom][right - i + left] = num;
+      num += 1;
+    }
+    bottom -= 1;
+
+    for (let i = top; i <= bottom; i += 1) {
+      matrix[bottom - i + top][left] = num;
+      num += 1;
+    }
+    left += 1;
+  }
+
+  return matrix;
 }
 
 /**
@@ -258,8 +304,25 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const n = matrix.length;
+  const initialMatrix = matrix;
+  const rotatedMatrix = [];
+
+  for (let i = 0; i < n; i += 1) {
+    rotatedMatrix[i] = [];
+    for (let j = 0; j < n; j += 1) {
+      rotatedMatrix[i][j] = matrix[n - 1 - j][i];
+    }
+  }
+
+  for (let i = 0; i < n; i += 1) {
+    for (let j = 0; j < n; j += 1) {
+      initialMatrix[i][j] = rotatedMatrix[i][j];
+    }
+  }
+
+  return initialMatrix;
 }
 
 /**
@@ -306,8 +369,59 @@ function sortByAsc(arr) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  if (!str || iterations <= 0) {
+    return str;
+  }
+  const n = str.length;
+  if (n === 1) {
+    return str;
+  }
+
+  const e = Math.floor((n + 1) / 2);
+
+  function nextIndex(i) {
+    if (i % 2 === 0) {
+      return Math.floor(i / 2);
+    }
+    return e + Math.floor((i - 1) / 2);
+  }
+
+  const visited = new Array(n);
+  for (let i = 0; i < n; i += 1) {
+    visited[i] = false;
+  }
+
+  const result = new Array(n);
+
+  for (let start = 0; start < n; start += 1) {
+    if (!visited[start]) {
+      const cycleIndices = [];
+      let cycleSize = 0;
+      let current = start;
+      do {
+        cycleIndices[cycleSize] = current;
+        cycleSize += 1;
+        visited[current] = true;
+
+        current = nextIndex(current);
+      } while (current !== start);
+
+      const modSteps = iterations % cycleSize;
+
+      for (let k = 0; k < cycleSize; k += 1) {
+        const originalIndex = cycleIndices[k];
+        const finalIndex = cycleIndices[(k + modSteps) % cycleSize];
+        result[finalIndex] = str.charAt(originalIndex);
+      }
+    }
+  }
+
+  let output = '';
+  for (let i = 0; i < n; i += 1) {
+    output += result[i];
+  }
+  return output;
 }
 
 /**
@@ -327,8 +441,32 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  if (number < 10) {
+    return number;
+  }
+  const digits = [...number.toFixed()];
+  const limit = digits.length - 1;
+  let i = limit - 1;
+  while (i >= 0 && digits[i] >= digits[i + 1]) {
+    i -= 1;
+  }
+
+  if (i < 0) {
+    return number;
+  }
+
+  let j = limit;
+  while (j > i && digits[j] <= digits[i]) {
+    j -= 1;
+  }
+
+  [digits[i], digits[j]] = [digits[j], digits[i]];
+
+  const rightPart = digits.splice(i + 1).sort((a, b) => a - b);
+  digits.push(...rightPart);
+
+  return +digits.join('');
 }
 
 module.exports = {
