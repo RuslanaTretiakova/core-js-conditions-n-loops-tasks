@@ -67,8 +67,12 @@ function getMaxNumber(a, b, c) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+function canQueenCaptureKing(queen, king) {
+  return (
+    queen.x === king.x ||
+    queen.y === king.y ||
+    Math.abs(queen.x - king.x) === Math.abs(queen.y - king.y)
+  );
 }
 
 /**
@@ -110,8 +114,130 @@ function isIsoscelesTriangle(a, b, c) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  let romanNumber;
+  switch (num) {
+    case 1:
+      romanNumber = 'I';
+      break;
+    case 2:
+      romanNumber = 'II';
+      break;
+    case 3:
+      romanNumber = 'III';
+      break;
+    case 4:
+      romanNumber = 'IV';
+      break;
+    case 5:
+      romanNumber = 'V';
+      break;
+    case 6:
+      romanNumber = 'VI';
+      break;
+    case 7:
+      romanNumber = 'VII';
+      break;
+    case 8:
+      romanNumber = 'VIII';
+      break;
+    case 9:
+      romanNumber = 'VIV';
+      break;
+    case 10:
+      romanNumber = 'X';
+      break;
+    case 11:
+      romanNumber = 'XI';
+      break;
+    case 12:
+      romanNumber = 'XII';
+      break;
+    case 13:
+      romanNumber = 'XIII';
+      break;
+    case 14:
+      romanNumber = 'XIV';
+      break;
+    case 15:
+      romanNumber = 'XV';
+      break;
+    case 16:
+      romanNumber = 'XVI';
+      break;
+    case 17:
+      romanNumber = 'XVII';
+      break;
+    case 18:
+      romanNumber = 'XIII';
+      break;
+    case 19:
+      romanNumber = 'XIX';
+      break;
+    case 20:
+      romanNumber = 'XX';
+      break;
+    case 21:
+      romanNumber = 'XXI';
+      break;
+    case 22:
+      romanNumber = 'XXII';
+      break;
+    case 23:
+      romanNumber = 'XXIII';
+      break;
+    case 24:
+      romanNumber = 'XXIV';
+      break;
+    case 25:
+      romanNumber = 'XXV';
+      break;
+    case 26:
+      romanNumber = 'XXVI';
+      break;
+    case 27:
+      romanNumber = 'XXVII';
+      break;
+    case 28:
+      romanNumber = 'XXVIII';
+      break;
+    case 29:
+      romanNumber = 'XXIX';
+      break;
+    case 30:
+      romanNumber = 'XXX';
+      break;
+    case 31:
+      romanNumber = 'XXXI';
+      break;
+    case 32:
+      romanNumber = 'XXXII';
+      break;
+    case 33:
+      romanNumber = 'XXXIII';
+      break;
+    case 34:
+      romanNumber = 'XXXIV';
+      break;
+    case 35:
+      romanNumber = 'XXXV';
+      break;
+    case 36:
+      romanNumber = 'XXXVI';
+      break;
+    case 37:
+      romanNumber = 'XXXVII';
+      break;
+    case 38:
+      romanNumber = 'XXXVIII';
+      break;
+    case 39:
+      romanNumber = 'XXXIX';
+      break;
+    default:
+      romanNumber = -1;
+  }
+  return romanNumber;
 }
 
 /**
@@ -129,8 +255,49 @@ function convertToRomanNumerals(/* num */) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  const convertWord = (n) => {
+    switch (n) {
+      case '0':
+        return 'zero';
+      case '1':
+        return 'one';
+      case '2':
+        return 'two';
+      case '3':
+        return 'three';
+      case '4':
+        return 'four';
+      case '5':
+        return 'five';
+      case '6':
+        return 'six';
+      case '7':
+        return 'seven';
+      case '8':
+        return 'eight';
+      case '9':
+        return 'nine';
+      case '.':
+        return 'point';
+      case ',':
+        return 'point';
+      case '-':
+        return 'minus';
+      default:
+        return 'error';
+    }
+  };
+
+  let result = '';
+  for (let i = 0; i < numberStr.length; i += 1) {
+    result += convertWord(numberStr[i]);
+    if (i !== numberStr.length - 1) {
+      result += ' ';
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -221,8 +388,25 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  let totalSum = 0;
+  for (let i = 0; i <= arr.length - 1; i += 1) {
+    totalSum += arr[i];
+  }
+
+  let leftSum = 0;
+
+  for (let i = 0; i <= arr.length - 1; i += 1) {
+    const rightSum = totalSum - leftSum - arr[i];
+
+    if (leftSum === rightSum) {
+      return i;
+    }
+
+    leftSum += arr[i];
+  }
+
+  return -1;
 }
 
 /**
